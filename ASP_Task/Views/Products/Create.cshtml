@@ -1,0 +1,44 @@
+﻿@using ASP_Task.Dtos
+@model CreateProductDto
+
+@{
+    ViewData["Title"] = "إضافة منتج";
+}
+
+<div class="container mt-4 col-md-6">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">إضافة منتج جديد</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">اسم المنتج</label>
+                    <input asp-for="Name" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">السعر</label>
+                    <input asp-for="Price" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">الكمية بالمخزن</label>
+                    <input asp-for="StockQuantity" type="number" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">القسم</label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories" required>
+                        <option value="">اختر القسم</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">صورة المنتج</label>
+                    <input type="file" asp-for="Image" class="form-control" />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                    <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

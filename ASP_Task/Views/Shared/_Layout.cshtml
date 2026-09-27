@@ -1,0 +1,234 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ASP_Task Dashboard</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Google Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ASP_Task.styles.css" asp-append-version="true" />
+
+    <style>
+            :root {
+                --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+                --primary-color: #4f46e5;
+                --bg-color: #f8fafc;
+                --navbar-bg: rgba(255, 255, 255, 0.85);
+                --text-color: #1e293b;
+                --text-muted: #64748b;
+                --border-color: #e2e8f0;
+                --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            }
+
+            body {
+                font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Navbar الفاخرة ذات التأثير الضبابي */
+            .navbar-custom {
+                background-color: var(--navbar-bg);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--border-color);
+                padding: 0.9rem 1.5rem;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+            }
+
+            .navbar-brand {
+                font-weight: 700;
+                font-size: 1.25rem;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                letter-spacing: -0.03em;
+            }
+
+                .navbar-brand i {
+                    -webkit-text-fill-color: #4f46e5;
+                }
+
+            .nav-link {
+                font-weight: 500;
+                font-size: 0.925rem;
+                color: var(--text-muted) !important;
+                padding: 0.5rem 0.9rem !important;
+                border-radius: 0.5rem;
+                transition: all 0.2s ease;
+            }
+
+                .nav-link:hover, .nav-link.active {
+                    color: var(--primary-color) !important;
+                    background-color: #eef2ff;
+                }
+
+            /* حاوية المحتوى الرئيسي */
+            .main-container {
+                flex: 1;
+                padding-top: 2.5rem;
+                padding-bottom: 2.5rem;
+            }
+
+            /* تصميم القائمة المنسدلة للمستخدم */
+            .dropdown-menu {
+                border-radius: 0.75rem;
+                padding: 0.5rem;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            }
+
+            .dropdown-item {
+                border-radius: 0.5rem;
+                padding: 0.55rem 1rem;
+                font-weight: 500;
+                font-size: 0.9rem;
+                transition: all 0.15s ease;
+            }
+
+                .dropdown-item:hover {
+                    background-color: #eef2ff;
+                    color: var(--primary-color);
+                }
+
+            /* الفوتر الفاخر */
+            .footer-custom {
+                background-color: #ffffff;
+                border-top: 1px solid var(--border-color);
+                color: var(--text-muted);
+                padding: 1.25rem 0;
+                font-size: 0.875rem;
+                margin-top: auto;
+            }
+
+            .footer-link {
+                color: var(--text-muted);
+                text-decoration: none;
+                transition: color 0.15s ease;
+            }
+
+                .footer-link:hover {
+                    color: var(--primary-color);
+                }
+    </style>
+</head>
+<body>
+    @{
+        var username = HttpContextAccessor.HttpContext?.Session.GetString("Username");
+    }
+
+    <!-- Top Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+            <div class="container">
+                <!-- Brand -->
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>ASP_Task</span>
+                </a>
+
+                <!-- Mobile Toggle Button -->
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 ms-lg-3">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house me-1 text-secondary opacity-75"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index"><i class="fa-solid fa-folder me-1 text-secondary opacity-75"></i> Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index"><i class="fa-solid fa-box-open me-1 text-secondary opacity-75"></i> Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="Index"><i class="fa-solid fa-users-rectangle me-1 text-secondary opacity-75"></i> Customers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index"><i class="fa-solid fa-cart-shopping me-1 text-secondary opacity-75"></i> Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Suppliers" asp-action="Index"><i class="fa-solid fa-truck-field me-1 text-secondary opacity-75"></i> Suppliers</a>
+                        </li>
+                    </ul>
+
+                    <!-- Admin & Management Menu -->
+                    <ul class="navbar-nav ms-auto gap-1 align-items-lg-center">
+                        @if (!string.IsNullOrEmpty(username))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light border border-1 border-light" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; font-size: 0.8rem; font-weight: bold;">
+                                        @username.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <span class="fw-semibold text-dark">@username</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end mt-2 animate slideIn" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Users" asp-action="Index"><i class="fa-solid fa-users-gear me-2 text-primary"></i> Manage Users</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Roles" asp-action="Index"><i class="fa-solid fa-shield-halved me-2 text-primary"></i> Roles & Permissions</a></li>
+                                    <li><hr class="dropdown-divider my-1"></li>
+                                    <li><a class="dropdown-item text-danger" asp-controller="Accounts" asp-action="Logout"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-semibold shadow-sm" asp-controller="Accounts" asp-action="Login">
+                                    <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Body -->
+    <div class="container main-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+                <div>
+                    &copy; 2026 <strong class="text-primary">ASP_Task</strong>. All rights reserved.
+                </div>
+                <div class="d-flex gap-3 align-items-center">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy" class="footer-link">Privacy Policy</a>
+                    <span class="text-muted">&bull;</span>
+                    <a href="#" class="footer-link">Support Center</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

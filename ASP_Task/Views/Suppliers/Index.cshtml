@@ -1,0 +1,24 @@
+﻿@using ASP_Task.Models
+@model IEnumerable<Supplier>
+
+@{
+    ViewData["Title"] = "الموردون"; int count = 1;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>قائمة الموردين</h2>
+        <a asp-action="Create" class="btn btn-success">+ إضافة مورد</a>
+    </div>
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr><th>#</th><th>اسم المورد</th><th>البريد</th><th>الهاتف</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr><td>@(count++)</td><td>@item.Name</td><td>@item.ContactEmail</td><td>@item.Phone</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "تسجيل الدخول";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول - نظام البقالة</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-5 col-lg-4">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h4 class="mb-0">تسجيل الدخول</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form asp-controller="Accounts" asp-action="Login" method="post">
+                            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                            <div class="mb-3">
+                                <label class="form-label">اسم المستخدم</label>
+                                <input type="text" name="username" class="form-control" placeholder="أدخل اسم المستخدم" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">كلمة المرور</label>
+                                <input type="password" name="password" class="form-control" placeholder="أدخل كلمة المرور" required />
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-block">دخول</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
