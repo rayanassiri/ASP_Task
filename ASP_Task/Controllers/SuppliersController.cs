@@ -32,8 +32,40 @@ namespace ASP_Task.Controllers
                 _supplierService.AddSupplier(supplierDto);
                 return RedirectToAction("Index");
             }
+            return View(supplierDto);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var supplier = _supplierService.GetSupplierById(id);
+            if (supplier == null) return NotFound();
+
+            var supplierDto = new CreateSupplierDto
+            {
+                Name = supplier.Name,
+                ContactEmail = supplier.ContactEmail,
+                Phone = supplier.Phone
+            };
 
             return View(supplierDto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, CreateSupplierDto supplierDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _supplierService.UpdateSupplier(id, supplierDto);
+                return RedirectToAction("Index");
+            }
+            return View(supplierDto);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _supplierService.DeleteSupplier(id);
+            return RedirectToAction("Index");
         }
     }
 }

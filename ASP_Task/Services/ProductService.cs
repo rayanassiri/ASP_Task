@@ -10,19 +10,25 @@ namespace ASP_Task.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductService(IUnitOfWork unitOfWork)
+         public ProductService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<ProductDto> GetProductsImprove()
         {
-            return _unitOfWork.ProductRepo.GetProductsImprove(); // بدون Cast، لأنها ترجع ProductDto أصلاً
+            return _unitOfWork.ProductRepo.GetProductsImprove();
         }
 
         public IEnumerable<Category> GetAllCategories()
         {
             return _unitOfWork.CategoryRepo.GetAll();
+        }
+
+ 
+        public Product GetProductById(int id)
+        {
+            return _unitOfWork.ProductRepo.GetById(id);
         }
 
         public void AddProduct(CreateProductDto productDto)
@@ -42,6 +48,36 @@ namespace ASP_Task.Services
 
             _unitOfWork.ProductRepo.Add(product);
             _unitOfWork.Save();
+        }
+
+        public void UpdateProduct(int id, CreateProductDto productDto)
+        {
+            var product = _unitOfWork.ProductRepo.GetById(id);
+            if (product != null)
+            {
+                product.Name = productDto.Name;
+                product.Price = productDto.Price;
+                product.StockQuantity = productDto.StockQuantity;
+                product.CategoryId = productDto.CategoryId;
+
+                if (productDto.Image != null)
+                {
+                    product.ImageURL = UploadImage(productDto.Image, productDto.Name);
+                }
+
+                _unitOfWork.ProductRepo.Update(product);
+                _unitOfWork.Save();
+            }
+        }
+
+        public void DeleteProduct(int id)
+        {
+            var product = _unitOfWork.ProductRepo.GetById(id);
+            if (product != null)
+            {
+                _unitOfWork.ProductRepo.Delete(id); 
+                _unitOfWork.Save();
+            }
         }
 
         private string UploadImage(IFormFile image, string name)

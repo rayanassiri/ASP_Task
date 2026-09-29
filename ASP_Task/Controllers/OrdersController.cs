@@ -40,5 +40,42 @@ namespace ASP_Task.Controllers
             ViewBag.Customers = new SelectList(allCustomers, "Id", "Name");
             return View(orderDto);
         }
+
+        public IActionResult Edit(int id)
+        {
+            var order = _orderService.GetOrderById(id);
+            if (order == null) return NotFound();
+
+            var orderDto = new CreateOrderDto
+            {
+                CustomerId = order.CustomerId,
+                TotalAmount = order.TotalAmount
+            };
+
+            var allCustomers = _orderService.GetAllCustomers();
+            ViewBag.Customers = new SelectList(allCustomers, "Id", "Name", order.CustomerId);
+            return View(orderDto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, CreateOrderDto orderDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _orderService.UpdateOrder(id, orderDto);
+                return RedirectToAction("Index");
+            }
+
+            var allCustomers = _orderService.GetAllCustomers();
+            ViewBag.Customers = new SelectList(allCustomers, "Id", "Name", orderDto.CustomerId);
+            return View(orderDto);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _orderService.DeleteOrder(id);
+            return RedirectToAction("Index");
+        }
     }
 }

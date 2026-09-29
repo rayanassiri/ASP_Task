@@ -2,7 +2,6 @@
 using ASP_Task.Models;
 using ASP_Task.Repositories.Base;
 using ASP_Task.Services.Base;
-using ASP_Task.Repositories.Base;
 
 namespace ASP_Task.Services
 {
@@ -15,7 +14,7 @@ namespace ASP_Task.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<OrderDto> GetOrdersImprove() // تم التعديل هنا
+        public IEnumerable<OrderDto> GetOrdersImprove()
         {
             return _unitOfWork.OrderRepo.GetOrdersImprove();
         }
@@ -23,6 +22,11 @@ namespace ASP_Task.Services
         public IEnumerable<Customer> GetAllCustomers()
         {
             return _unitOfWork.CustomerRepo.GetAll();
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return _unitOfWork.OrderRepo.GetById(id);
         }
 
         public void AddOrder(CreateOrderDto orderDto)
@@ -35,6 +39,25 @@ namespace ASP_Task.Services
             };
 
             _unitOfWork.OrderRepo.Add(order);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateOrder(int id, CreateOrderDto orderDto)
+        {
+            var order = _unitOfWork.OrderRepo.GetById(id);
+            if (order != null)
+            {
+                order.CustomerId = orderDto.CustomerId;
+                order.TotalAmount = orderDto.TotalAmount;
+
+                _unitOfWork.OrderRepo.Update(order);
+                _unitOfWork.Save();
+            }
+        }
+
+        public void DeleteOrder(int id)
+        {
+            _unitOfWork.OrderRepo.Delete(id);
             _unitOfWork.Save();
         }
     }

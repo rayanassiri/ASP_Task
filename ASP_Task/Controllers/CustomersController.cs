@@ -32,8 +32,40 @@ namespace ASP_Task.Controllers
                 _customerService.AddCustomer(customerDto);
                 return RedirectToAction("Index");
             }
+            return View(customerDto);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var customer = _customerService.GetCustomerById(id);
+            if (customer == null) return NotFound();
+
+            var customerDto = new CreateCustomerDto
+            {
+                Name = customer.Name,
+                Email = customer.Email,
+                Phone = customer.Phone
+            };
 
             return View(customerDto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, CreateCustomerDto customerDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _customerService.UpdateCustomer(id, customerDto);
+                return RedirectToAction("Index");
+            }
+            return View(customerDto);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _customerService.DeleteCustomer(id);
+            return RedirectToAction("Index");
         }
     }
 }

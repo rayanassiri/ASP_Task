@@ -4,53 +4,61 @@
     ViewData["Title"] = "إدارة الفئات";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-primary mb-0">
-        <i class="fa-solid fa-layer-group me-2"></i>فئات المنتجات
-    </h2>
-    <a asp-action="Create" class="btn btn-primary shadow-sm">
-        <i class="fa-solid fa-plus me-1"></i> إضافة فئة جديدة
-    </a>
-</div>
-
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th># المعرف</th>
-                    <th>اسم الفئة</th>
-                    <th>الوصف</th>
-                    <th class="text-end">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var item in Model)
-                    {
+<div class="container-fluid px-4 py-4">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background-color: #ffffff;">
+        <div class="card-header bg-white border-0 p-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1" style="color: #2b3a4a;"><i class="fa-solid fa-layer-group me-2 text-primary"></i>فئات المنتجات</h3>
+                <p class="text-muted mb-0 small">إدارة وتصنيف أقسام المنتجات في المتجر</p>
+            </div>
+            <a asp-action="Create" class="btn text-white fw-semibold px-4 py-2 rounded-pill shadow-sm" style="background-color: #4a6fa5;">
+                <i class="fa-solid fa-plus me-1"></i> إضافة فئة جديدة
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 text-center" style="border-color: #f1f3f5;">
+                    <thead style="background-color: #f8f9fa; color: #495057;">
                         <tr>
-                            <td>@item.Id</td>
-                            <td class="fw-semibold">@item.Name</td>
-                            <td class="text-muted">@item.Description</td>
-                            <td class="text-end">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-1" title="تعديل">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="حذف">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
+                            <th class="py-3"># المعرف</th>
+                            <th class="py-3 text-start">اسم الفئة</th>
+                            <th class="py-3 text-start">الوصف</th>
+                            <th class="py-3 text-end">الإجراءات</th>
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="4" class="text-center py-4 text-muted">لا توجد فئات حالياً.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr style="transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#fcfcfc'" onmouseout="this.style.backgroundColor='transparent'">
+                                    <td class="fw-bold text-muted">@item.Id</td>
+                                    <td class="fw-semibold text-start" style="color: #2b3a4a;">@item.Name</td>
+                                    <td class="text-muted text-start">@(string.IsNullOrEmpty(item.Description) ? "لا يوجد وصف" : item.Description)</td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-2">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm text-white rounded-circle p-2 shadow-sm" style="background-color: #e0a96d; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;" title="تعديل">
+                                                <i class="fa-solid fa-pen text-white"></i>
+                                            </a>
+                                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm text-white rounded-circle p-2 shadow-sm" style="background-color: #d96b6b; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;" title="حذف" onclick="return confirm('هل أنت متأكد من حذف هذه الفئة؟');">
+                                                    <i class="fa-solid fa-trash text-white"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">لا توجد فئات حالياً.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

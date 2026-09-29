@@ -40,5 +40,46 @@ namespace ASP_Task.Controllers
             ViewBag.Categories = new SelectList(allCategories, "Id", "Name");
             return View(productDto);
         }
+
+        // 1. عرض صفحة التعديل
+        public IActionResult Edit(int id)
+        {
+            var product = _productService.GetProductById(id);
+            if (product == null) return NotFound();
+
+            // تجهيز الـ DTO أو تمرير الموديل حسب تصميمك
+            var productDto = new CreateProductDto
+            {
+                Name = product.Name,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
+                CategoryId = product.CategoryId
+            };
+
+            ViewBag.Categories = new SelectList(_productService.GetAllCategories(), "Id", "Name", product.CategoryId);
+            return View(productDto);
+        }
+
+        // 2. استقبال بيانات التعديل
+        [HttpPost]
+        public IActionResult Edit(int id, CreateProductDto productDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _productService.UpdateProduct(id, productDto);
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Categories = new SelectList(_productService.GetAllCategories(), "Id", "Name", productDto.CategoryId);
+            return View(productDto);
+        }
+
+        // 3. الحذف
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _productService.DeleteProduct(id);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -35,5 +35,31 @@ namespace ASP_Task.Controllers
             }
             return View(category);
         }
+
+        public IActionResult Edit(int id)
+        {
+            var category = _categoryService.GetCategoryById(id);
+            if (category == null) return NotFound();
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _categoryService.UpdateCategory(category);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _categoryService.DeleteCategory(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

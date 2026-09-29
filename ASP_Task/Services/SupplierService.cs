@@ -19,6 +19,11 @@ namespace ASP_Task.Services
             return _unitOfWork.SupplierRepo.GetAll();
         }
 
+        public Supplier GetSupplierById(int id)
+        {
+            return _unitOfWork.SupplierRepo.GetById(id);
+        }
+
         public void AddSupplier(CreateSupplierDto supplierDto)
         {
             var supplier = new Supplier
@@ -29,6 +34,26 @@ namespace ASP_Task.Services
             };
 
             _unitOfWork.SupplierRepo.Add(supplier);
+            _unitOfWork.Save();
+        }
+
+        public void UpdateSupplier(int id, CreateSupplierDto supplierDto)
+        {
+            var supplier = _unitOfWork.SupplierRepo.GetById(id);
+            if (supplier != null)
+            {
+                supplier.Name = supplierDto.Name;
+                supplier.ContactEmail = supplierDto.ContactEmail;
+                supplier.Phone = supplierDto.Phone;
+
+                _unitOfWork.SupplierRepo.Update(supplier);
+                _unitOfWork.Save();
+            }
+        }
+
+        public void DeleteSupplier(int id)
+        {
+            _unitOfWork.SupplierRepo.Delete(id);
             _unitOfWork.Save();
         }
     }

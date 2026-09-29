@@ -4,59 +4,64 @@
     ViewData["Title"] = "الأدوار والصلاحيات";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-primary mb-0">
-        <i class="fa-solid fa-shield-halved me-2"></i>أدوار المستخدمين
-    </h2>
-    <a asp-action="Create" class="btn btn-primary shadow-sm">
-        <i class="fa-solid fa-plus me-1"></i> إضافة دور جديد
-    </a>
-</div>
-
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th># المعرف</th>
-                    <th>اسم الدور</th>
-                    <th class="text-end">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var item in Model)
-                    {
+<div class="container-fluid px-4 py-4">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background-color: #ffffff;">
+        <div class="card-header bg-white border-0 p-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1" style="color: #2b3a4a;"><i class="fa-solid fa-shield-halved me-2 text-primary"></i>أدوار المستخدمين</h3>
+                <p class="text-muted mb-0 small">إدارة أدوار وصلاحيات النظام</p>
+            </div>
+            <a asp-action="Create" class="btn text-white fw-semibold px-4 py-2 rounded-pill shadow-sm" style="background-color: #4a6fa5;">
+                <i class="fa-solid fa-plus me-1"></i> إضافة دور جديد
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 text-center" style="border-color: #f1f3f5;">
+                    <thead style="background-color: #f8f9fa; color: #495057;">
                         <tr>
-                            <td>@item.Id</td>
-                            <td class="fw-bold">
-                                <span class="badge bg-primary fs-6">@item.RoleName</span>
-                            </td>
-                            <td class="text-end">
-                                <!-- زر تعيين الصلاحيات -->
-                                <a asp-action="AssignPermissions" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-1" title="تعيين الصلاحيات">
-                                    <i class="fa-solid fa-user-shield"></i>
-                                </a>
-                                <!-- زر التعديل -->
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-1" title="تعديل">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <!-- زر الحذف -->
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="حذف">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
+                            <th class="py-3"># المعرف</th>
+                            <th class="py-3 text-start">اسم الدور</th>
+                            <th class="py-3 text-end">الإجراءات</th>
                         </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="3" class="text-center py-4 text-muted">لا توجد أدوار معرفة حالياً.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr style="transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#fcfcfc'" onmouseout="this.style.backgroundColor='transparent'">
+                                    <td class="fw-bold text-muted">@item.Id</td>
+                                    <td class="text-start">
+                                        <span class="badge px-3 py-2 rounded-pill" style="background-color: #e8f4f8; color: #2b7a9f;">@item.RoleName</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-2">
+                                            <a asp-action="AssignPermissions" asp-route-id="@item.Id" class="btn btn-sm text-white rounded-circle p-2 shadow-sm" style="background-color: #5bc0de; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;" title="تعيين الصلاحيات">
+                                                <i class="fa-solid fa-user-shield text-white"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm text-white rounded-circle p-2 shadow-sm" style="background-color: #e0a96d; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;" title="تعديل">
+                                                <i class="fa-solid fa-pen text-white"></i>
+                                            </a>
+                                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm text-white rounded-circle p-2 shadow-sm" style="background-color: #d96b6b; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;" title="حذف" onclick="return confirm('هل أنت متأكد من حذف هذا الدور؟');">
+                                                    <i class="fa-solid fa-trash text-white"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center py-5 text-muted">لا توجد أدوار معرفة حالياً.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
