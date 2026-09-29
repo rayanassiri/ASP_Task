@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ASP_Task.Data;
 using ASP_Task.Models;
-using Microsoft.EntityFrameworkCore;
+using ASP_Task.Services.Base;
 
 namespace ASP_Task.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(AppDbContext context)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = _categoryService.GetAllCategories();
             return View(categories);
         }
 
@@ -27,12 +26,11 @@ namespace ASP_Task.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
+        public IActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                await _context.SaveChangesAsync();
+                _categoryService.AddCategory(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);

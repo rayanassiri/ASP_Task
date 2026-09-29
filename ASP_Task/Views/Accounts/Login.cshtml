@@ -8,39 +8,108 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تسجيل الدخول - نظام البقالة</title>
+    <title>تسجيل الدخول - ASP_Task Enterprise Suite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f4f6f9 radial-gradient(rgba(226, 232, 240, 0.8) 1px, transparent 1px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08);
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+        }
+        .icon-box {
+            width: 60px; height: 60px; border-radius: 18px;
+            background: var(--gradient); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin: 0 auto 1rem;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        .title-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .input-group-custom { position: relative; }
+        .input-group-custom i {
+            position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+            color: #64748b; transition: 0.3s;
+        }
+        .form-control-custom {
+            width: 100%; background: #f8fafc; border: 1px solid #e2e8f0;
+            border-radius: 1rem; padding: 0.75rem 2.75rem 0.75rem 1rem;
+            font-size: 0.9rem; transition: 0.3s;
+        }
+        .form-control-custom:focus {
+            background: #fff; border-color: var(--primary); outline: none;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        }
+        .form-control-custom:focus + i { color: var(--primary); }
+        .btn-login {
+            background: var(--gradient); color: #fff; border: none;
+            border-radius: 1rem; padding: 0.8rem; font-weight: 700; width: 100%;
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); transition: 0.3s;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(79, 70, 229, 0.5); color: #fff; }
+        .validation-summary-errors ul { list-style: none; padding: 0; margin: 0 0 1rem 0; font-size: 0.8rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 0.75rem; padding: 0.5rem 1rem; color: #dc2626; }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-5 col-lg-4">
-                <div class="card shadow-lg border-0 rounded-lg">
-                    <div class="card-header bg-primary text-white text-center py-3">
-                        <h4 class="mb-0">تسجيل الدخول</h4>
-                    </div>
-                    <div class="card-body p-4">
-                        <form asp-controller="Accounts" asp-action="Login" method="post">
-                            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+<body>
 
-                            <div class="mb-3">
-                                <label class="form-label">اسم المستخدم</label>
-                                <input type="text" name="username" class="form-control" placeholder="أدخل اسم المستخدم" required />
-                            </div>
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <div class="icon-box"><i class="fa-solid fa-layer-group"></i></div>
+            <h2 class="title-gradient fs-3 mb-1">تسجيل الدخول</h2>
+            <p class="text-muted small">مرحباً بك مجدداً في نظام ASP_Task</p>
+        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">كلمة المرور</label>
-                                <input type="password" name="password" class="form-control" placeholder="أدخل كلمة المرور" required />
-                            </div>
+        <form asp-controller="Accounts" asp-action="Login" method="post">
+            <div asp-validation-summary="All"></div>
 
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-primary btn-block">دخول</button>
-                            </div>
-                        </form>
-                    </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold small text-dark mb-1">اسم المستخدم</label>
+                <div class="input-group-custom">
+                    <input type="text" name="username" class="form-control-custom" placeholder="أدخل اسم المستخدم" required autocomplete="username" />
+                    <i class="fa-solid fa-user-shield"></i>
                 </div>
             </div>
-        </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold small text-dark mb-1">كلمة المرور</label>
+                <div class="input-group-custom">
+                    <input type="password" name="password" class="form-control-custom" placeholder="أدخل كلمة المرور" required autocomplete="current-password" />
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <span>دخول إلى النظام</span>
+                <i class="fa-solid fa-arrow-left-long"></i>
+            </button>
+        </form>
     </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

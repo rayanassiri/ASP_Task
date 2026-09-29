@@ -1,47 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ASP_Task.Dtos;
-using ASP_Task.Models;
-using ASP_Task.Repositories;
+using ASP_Task.Services.Base;
 
 namespace ASP_Task.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductService _productService;
 
-        public ProductsController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public ProductsController(IProductService productService)
         {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
-        }
-
-        private string UploadImage(IFormFile image, string name)
-        {
-            string fileName = name + "_" + Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Products");
-
-            Directory.CreateDirectory(folderPath);
-            string filePath = Path.Combine(folderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                image.CopyTo(stream);
-            }
-
-            return "/images/Products/" + fileName;
+            _productService = productService;
         }
 
         public IActionResult Index()
         {
-            var products = _productRepository.GetProductsImprove();
+            var products = _productService.GetProductsImprove();
             return View(products);
         }
 
         public IActionResult Create()
         {
-            var allCategories = _categoryRepository.GetAll();
+            var allCategories = _productService.GetAllCategories();
             ViewBag.Categories = new SelectList(allCategories, "Id", "Name");
             return View();
         }
@@ -51,25 +32,11 @@ namespace ASP_Task.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = new Product
-                {
-                    Name = productDto.Name,
-                    Price = productDto.Price,
-                    StockQuantity = productDto.StockQuantity,
-                    CategoryId = productDto.CategoryId
-                };
-
-                if (productDto.Image != null)
-                {
-                    product.ImageURL = UploadImage(productDto.Image, productDto.Name);
-                }
-
-                _productRepository.Add(product);
-                _productRepository.Save();
+                _productService.AddProduct(productDto);
                 return RedirectToAction("Index");
             }
 
-            var allCategories = _categoryRepository.GetAll();
+            var allCategories = _productService.GetAllCategories();
             ViewBag.Categories = new SelectList(allCategories, "Id", "Name");
             return View(productDto);
         }

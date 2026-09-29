@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASP_Task.Dtos;
-using ASP_Task.Models;
-using ASP_Task.Repositories;
+using ASP_Task.Services.Base;
 
 namespace ASP_Task.Controllers
 {
     public class SuppliersController : Controller
     {
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierService _supplierService;
 
-        public SuppliersController(ISupplierRepository supplierRepository)
+        public SuppliersController(ISupplierService supplierService)
         {
-            _supplierRepository = supplierRepository;
+            _supplierService = supplierService;
         }
 
         public IActionResult Index()
         {
-            var suppliers = _supplierRepository.GetAll();
+            var suppliers = _supplierService.GetAllSuppliers();
             return View(suppliers);
         }
 
@@ -30,15 +29,7 @@ namespace ASP_Task.Controllers
         {
             if (ModelState.IsValid)
             {
-                var supplier = new Supplier
-                {
-                    Name = supplierDto.Name,
-                    ContactEmail = supplierDto.ContactEmail,
-                    Phone = supplierDto.Phone
-                };
-
-                _supplierRepository.Add(supplier);
-                _supplierRepository.Save();
+                _supplierService.AddSupplier(supplierDto);
                 return RedirectToAction("Index");
             }
 

@@ -1,31 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ASP_Task.Dtos;
-using ASP_Task.Models;
-using ASP_Task.Repositories;
+using ASP_Task.Services.Base;
 
 namespace ASP_Task.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly IOrderRepository _orderRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(IOrderRepository orderRepository, ICustomerRepository customerRepository)
+        public OrdersController(IOrderService orderService)
         {
-            _orderRepository = orderRepository;
-            _customerRepository = customerRepository;
+            _orderService = orderService;
         }
 
         public IActionResult Index()
         {
-            var orders = _orderRepository.GetOrdersImprove();
+            var orders = _orderService.GetOrdersImprove();
             return View(orders);
         }
 
         public IActionResult Create()
         {
-            var allCustomers = _customerRepository.GetAll();
+            var allCustomers = _orderService.GetAllCustomers();
             ViewBag.Customers = new SelectList(allCustomers, "Id", "Name");
             return View();
         }
@@ -35,19 +32,11 @@ namespace ASP_Task.Controllers
         {
             if (ModelState.IsValid)
             {
-                var order = new Order
-                {
-                    CustomerId = orderDto.CustomerId,
-                    TotalAmount = orderDto.TotalAmount,
-                    OrderDate = DateTime.Now
-                };
-
-                _orderRepository.Add(order);
-                _orderRepository.Save();
+                _orderService.AddOrder(orderDto);
                 return RedirectToAction("Index");
             }
 
-            var allCustomers = _customerRepository.GetAll();
+            var allCustomers = _orderService.GetAllCustomers();
             ViewBag.Customers = new SelectList(allCustomers, "Id", "Name");
             return View(orderDto);
         }

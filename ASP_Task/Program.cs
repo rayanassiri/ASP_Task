@@ -1,7 +1,10 @@
-using Microsoft.EntityFrameworkCore;
 using ASP_Task.Data;
-using ASP_Task.Repositories;
 using ASP_Task.Models;
+using ASP_Task.Repositories;
+using ASP_Task.Repositories.Base;
+using ASP_Task.Services;
+using ASP_Task.Services.Base;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,13 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // 2. بناء التطبيق
 var builderApp = builder.Build();

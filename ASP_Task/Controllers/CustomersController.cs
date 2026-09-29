@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASP_Task.Dtos;
-using ASP_Task.Models;
-using ASP_Task.Repositories;
+using ASP_Task.Services.Base;
 
 namespace ASP_Task.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerService _customerService;
 
-        public CustomersController(ICustomerRepository customerRepository)
+        public CustomersController(ICustomerService customerService)
         {
-            _customerRepository = customerRepository;
+            _customerService = customerService;
         }
 
         public IActionResult Index()
         {
-            var customers = _customerRepository.GetAll();
+            var customers = _customerService.GetAllCustomers();
             return View(customers);
         }
 
@@ -30,15 +29,7 @@ namespace ASP_Task.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customer = new Customer
-                {
-                    Name = customerDto.Name,
-                    Email = customerDto.Email,
-                    Phone = customerDto.Phone
-                };
-
-                _customerRepository.Add(customer);
-                _customerRepository.Save();
+                _customerService.AddCustomer(customerDto);
                 return RedirectToAction("Index");
             }
 
