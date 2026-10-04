@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\ASP_Task.Application\ASP_Task.Application.csproj" />
+    <ProjectReference Include="..\ASP_Task.Domain\ASP_Task.Domain.csproj" />
+    <ProjectReference Include="..\ASP_Task.Infrastructure\ASP_Task.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

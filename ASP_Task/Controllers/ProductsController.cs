@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ASP_Task.Dtos;
-using ASP_Task.Services.Base;
+using ASP_Task.Application.Dtos;
+using ASP_Task.Application.Services.Base;
 
 namespace ASP_Task.Controllers
 {

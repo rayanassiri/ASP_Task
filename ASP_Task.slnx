@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="ASP_Task.Application/ASP_Task.Application.csproj" Id="7a1d83c6-bd4d-4407-9376-9206b73fd74c" />
+  <Project Path="ASP_Task.Domain/ASP_Task.Domain.csproj" Id="3fb38aef-7e9f-48d6-8dcc-a83594ad2461" />
+  <Project Path="ASP_Task.Infrastructure/ASP_Task.Infrastructure.csproj" Id="5a97b895-0972-4b0a-810d-df06f2148d91" />
   <Project Path="ASP_Task/ASP_Task.csproj" />
 </Solution>
