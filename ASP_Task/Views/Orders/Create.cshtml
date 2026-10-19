@@ -1,0 +1,32 @@
+﻿@using ASP_Task.Dtos
+@model CreateOrderDto
+
+@{
+    ViewData["Title"] = "إنشاء طلب";
+}
+
+<div class="container mt-4 col-md-6">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">إنشاء طلب جديد</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">العميل</label>
+                    <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.Customers" required>
+                        <option value="">اختر العميل</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">إجمالي الطلب</label>
+                    <input asp-for="TotalAmount" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">حفظ الطلب</button>
+                    <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
